@@ -1,5 +1,5 @@
 {% set name = "osqp" %}
-{% set version = "0.3.1" %}
+{% set version = "0.4.0" %}
 
 package:
   name: {{ name|lower }}
@@ -8,10 +8,10 @@ package:
 source:
   - url: https://github.com/oxfordcontrol/osqp-python/archive/v{{ version }}.tar.gz
     fn: osqp-python-{{ version }}.tar.gz
-    sha256: 00da87339f79ee6430b32f77cdb008c3459806dae73a4e1c59e34ed731e42e27
+    sha256: 6d7721a33bc00a005430f255348150433b1f4637b1519b2d4f2bb4fb8e4bf530
   - url: https://github.com/oxfordcontrol/osqp/archive/v{{ version }}.tar.gz
     fn: osqp-{{ version }}.tar.gz
-    sha256: 6aefbec4fa4c210e14e8bb396b28e0ba089610444df830586848e124ba773cab
+    sha256: aaf3c5553590b10eafd8214e681a218f128fb88cf5ae84b78d8b3a571dc868aa
     folder: osqp_sources
 
 build:
