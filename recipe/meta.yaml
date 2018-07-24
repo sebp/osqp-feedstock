@@ -1,7 +1,7 @@
 {% set name = "osqp" %}
 {% set version = "0.4.0" %}
 {% set osqp_version = version %}
-{% set qldl_version = "0.1.2" %}  # Keep this up to date too! :/
+{% set qdldl_version = "0.1.2" %}  # Keep this up to date too! :/
 
 package:
   name: {{ name|lower }}
@@ -15,8 +15,8 @@ source:
     fn: osqp-{{ version }}.tar.gz
     sha256: aaf3c5553590b10eafd8214e681a218f128fb88cf5ae84b78d8b3a571dc868aa
     folder: osqp_sources
-  - url: https://github.com/oxfordcontrol/qldl/archive/v{{ qldl_version }}.tar.gz
-    fn: qldl-{{ qldl_version }}.tar.gz
+  - url: https://github.com/oxfordcontrol/qdldl/archive/v{{ qdldl_version }}.tar.gz
+    fn: qdldl-{{ qdldl_version }}.tar.gz
     sha256: e059b02516a5314e2a1d69c9ede910ef3a532699c76d5455a53dbff8a97f1fe5
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
