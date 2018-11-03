@@ -1,7 +1,9 @@
 {% set name = "osqp" %}
-{% set version = "0.4.0" %}
-{% set osqp_version = version %}
-{% set qdldl_version = "0.1.2" %}  # Keep this up to date too! :/
+{% set version = "0.4.1" %}
+# XXX Update submodule versions when the main version ticks too!
+#     The bot doesn't know how to do that yet.
+{% set osqp_tag = "a5af44da9da6ac9c0207ec907e70a28d54fe0df1" %}
+{% set qdldl_tag = "7ab0fca4777e5bd8203d7b36baef6c59523b0036" %}
 
 package:
   name: {{ name|lower }}
@@ -10,14 +12,14 @@ package:
 source:
   - url: https://github.com/oxfordcontrol/osqp-python/archive/v{{ version }}.tar.gz
     fn: osqp-python-{{ version }}.tar.gz
-    sha256: 6d7721a33bc00a005430f255348150433b1f4637b1519b2d4f2bb4fb8e4bf530
-  - url: https://github.com/oxfordcontrol/osqp/archive/v{{ osqp_version }}.tar.gz
-    fn: osqp-{{ osqp_version }}.tar.gz
-    sha256: aaf3c5553590b10eafd8214e681a218f128fb88cf5ae84b78d8b3a571dc868aa
+    sha256: 76ac8dad5d994d6e22d84ab5ff030e88a1b327144527118c4e7ae0bc03a9fcd6
+  - url: https://github.com/oxfordcontrol/osqp/archive/{{ osqp_tag }}.tar.gz
+    fn: osqp-{{ osqp_tag }}.tar.gz
+    sha256: 2a068d00f2a20ee2a2ff1ad92a32c3b1e5ef8480b4188426d11e59292ca3633d
     folder: osqp_sources
-  - url: https://github.com/oxfordcontrol/qdldl/archive/v{{ qdldl_version }}.tar.gz
-    fn: qdldl-{{ qdldl_version }}.tar.gz
-    sha256: e059b02516a5314e2a1d69c9ede910ef3a532699c76d5455a53dbff8a97f1fe5
+  - url: https://github.com/oxfordcontrol/qdldl/archive/{{ qdldl_tag }}.tar.gz
+    fn: qdldl-{{ qdldl_tag }}.tar.gz
+    sha256: 5eef3d53a57e18835376e81df59084069b47ae090a876dae223502526b87a961
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
 build:
@@ -28,6 +30,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
     - cmake
   host:
     - python
