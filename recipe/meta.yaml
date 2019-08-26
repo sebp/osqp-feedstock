@@ -20,9 +20,9 @@ source:
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
 build:
-  number: 0
+  number: 1
   script: python -m pip install --no-deps --ignore-installed .
-  skip: true  # figure out Windows build later...  # [win]
+  skip: true  # [win and py==27]
 
 requirements:
   build:
@@ -38,6 +38,7 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - scipy >=0.13.2
     - future
+    - vs2015_runtime                 # [win]
 
 test:
   imports:
@@ -49,7 +50,7 @@ test:
   commands:
     # codegen interface requires compiler + cmake
     # want to make sure other stuff works without it...
-    - python -m pytest --pyargs osqp -k 'not codegen_'
+    - python -m pytest --pyargs osqp -k "not codegen_"
 
 about:
   home: https://osqp.org/
