@@ -13,6 +13,7 @@ source:
     patches:
     - patches/0001-setup-use-NMake-on-windows.patch
     - patches/0002-setup-do-not-use-different-output-folder-on-windows.patch
+    - patches/0003-also-use-NMake-in-codegen.patch
 
   - url: https://github.com/oxfordcontrol/osqp/archive/v{{ version }}.tar.gz
     fn: osqp-{{ version }}.tar.gz
@@ -50,11 +51,13 @@ test:
     - osqp.codegen
     - osqppurepy
   requires:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - cmake
     - pytest
   commands:
     # codegen interface requires compiler + cmake
-    # want to make sure other stuff works without it...
-    - python -m pytest --pyargs osqp -k "not codegen_"
+    - python -m pytest --pyargs osqp
 
 about:
   home: https://osqp.org/
