@@ -10,6 +10,9 @@ source:
   - url: https://github.com/oxfordcontrol/osqp-python/archive/v{{ version }}.tar.gz
     fn: osqp-python-{{ version }}.tar.gz
     sha256: 6061c34745a152c143c4d0875aeaa01042e7e383f41ffbdffbe06a55f5a7caeb
+    patches:
+    - patches/0001-setup-use-NMake-on-windows.patch
+
   - url: https://github.com/oxfordcontrol/osqp/archive/v{{ version }}.tar.gz
     fn: osqp-{{ version }}.tar.gz
     sha256: e0932d1f7bc56dbe526bee4a81331c1694d94c570f8ac6a6cb413f38904e0f64
