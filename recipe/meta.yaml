@@ -10,6 +10,11 @@ source:
   - url: https://github.com/oxfordcontrol/osqp-python/archive/v{{ version }}.tar.gz
     fn: osqp-python-{{ version }}.tar.gz
     sha256: 6061c34745a152c143c4d0875aeaa01042e7e383f41ffbdffbe06a55f5a7caeb
+    patches:
+    - patches/0001-setup-use-NMake-on-windows.patch
+    - patches/0002-setup-do-not-use-different-output-folder-on-windows.patch
+    - patches/0003-also-use-NMake-in-codegen.patch
+
   - url: https://github.com/oxfordcontrol/osqp/archive/v{{ version }}.tar.gz
     fn: osqp-{{ version }}.tar.gz
     sha256: e0932d1f7bc56dbe526bee4a81331c1694d94c570f8ac6a6cb413f38904e0f64
@@ -20,9 +25,9 @@ source:
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
 build:
-  number: 0
+  number: 1
   script: python -m pip install --no-deps --ignore-installed .
-  skip: true  # figure out Windows build later...  # [win]
+  skip: true  # [win and py==27]
 
 requirements:
   build:
@@ -38,6 +43,7 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - scipy >=0.13.2
     - future
+    - vs2015_runtime                 # [win]
 
 test:
   imports:
@@ -45,11 +51,13 @@ test:
     - osqp.codegen
     - osqppurepy
   requires:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - cmake
     - pytest
   commands:
     # codegen interface requires compiler + cmake
-    # want to make sure other stuff works without it...
-    - python -m pytest --pyargs osqp -k 'not codegen_'
+    - python -m pytest --pyargs osqp
 
 about:
   home: https://osqp.org/
