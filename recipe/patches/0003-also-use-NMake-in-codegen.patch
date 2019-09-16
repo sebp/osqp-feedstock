@@ -1,17 +1,17 @@
-From 744f3b7901a81b49101362de418a8a72b7316eea Mon Sep 17 00:00:00 2001
+From 9426c5cd448d6ace85ff3a1b96b449e9fc049195 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 29 Aug 2019 14:13:50 +0200
-Subject: [PATCH 3/3] also use NMake in codegen
+Subject: [PATCH 3/4] also use NMake in codegen
 
 ---
  module/interface.py | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/module/interface.py b/module/interface.py
-index 96ab5b4..483e46f 100644
+index d551c92..b4483bf 100644
 --- a/module/interface.py
 +++ b/module/interface.py
-@@ -353,9 +353,9 @@ class OSQP(object):
+@@ -258,9 +258,9 @@ class OSQP(object):
          if project_type not in expectedProject:
              raise ValueError("Unknown value of 'project_type' argument.")
  
