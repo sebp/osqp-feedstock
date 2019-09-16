@@ -25,7 +25,7 @@ source:
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
 build:
-  number: 2
+  number: 3
   script: python -m pip install --no-deps --ignore-installed .
   skip: true  # [py==27 and (win or ppc64le)]
 
