@@ -15,7 +15,7 @@ source:
     - patches/0001-setup-use-NMake-on-windows.patch
     - patches/0002-setup-do-not-use-different-output-folder-on-windows.patch
     - patches/0003-also-use-NMake-in-codegen.patch
-    - patches/0004-Disable-MKL-Tests-on-nonx86.patch     # [ppc64le]
+    - patches/0004-Disable-MKL-Tests-on-nonx86.patch     # [not x86_64]
 
   - url: https://github.com/oxfordcontrol/osqp/archive/v{{ osqp_version }}.tar.gz
     fn: osqp-{{ osqp_version }}.tar.gz
@@ -27,9 +27,9 @@ source:
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
 build:
-  number: 0
+  number: 1
   script: python -m pip install --no-deps --ignore-installed .
-  skip: true  # [py==27 and (win or ppc64le)]
+  skip: true  # [py==27 and (win or (not x86_64))]
 
 requirements:
   build:
@@ -55,7 +55,7 @@ test:
     - osqppurepy
   requires:
     # some of the tests need mkl-specific solvers
-    - blas=*=mkl                     # [not ppc64le]
+    - blas=*=mkl                     # [x86_64]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
