@@ -30,7 +30,7 @@ Current build status
     <td>Drone</td>
     <td>
       <a href="https://cloud.drone.io/conda-forge/osqp-feedstock">
-        <img alt="linux" src="https://img.shields.io/drone/build/conda-forge/master.svg?label=Linux">
+        <img alt="linux" src="https://img.shields.io/drone/build/conda-forge/osqp-feedstock/master.svg?label=Linux">
       </a>
     </td>
   </tr>
@@ -280,7 +280,7 @@ Feedstock Maintainers
 =====================
 
 * [@bstellato](https://github.com/bstellato/)
-* [@dougalsutherland](https://github.com/dougalsutherland/)
+* [@djsutherland](https://github.com/djsutherland/)
 * [@gbanjac](https://github.com/gbanjac/)
 * [@h-vetinari](https://github.com/h-vetinari/)
 * [@jayfurmanek](https://github.com/jayfurmanek/)
