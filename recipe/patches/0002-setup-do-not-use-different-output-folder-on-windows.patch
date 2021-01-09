@@ -1,4 +1,4 @@
-From 76f65a282cb05e8df4b9be7d5e71e4953bcebcef Mon Sep 17 00:00:00 2001
+From 8ee439ec739fd76b730bc8414d99f453543f64e7 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 29 Aug 2019 09:33:23 +0200
 Subject: [PATCH 2/4] setup: do not use different output folder on windows
@@ -8,11 +8,11 @@ Subject: [PATCH 2/4] setup: do not use different output folder on windows
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 35be9e4..2620a1f 100644
+index 30fa4c1..9b8bcb5 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -28,7 +28,7 @@ if system() == 'Windows':
- 
+@@ -51,7 +51,7 @@ if system() == 'Windows':
+     cmake_args += ['-DCMAKE_BUILD_TYPE=Release']
      cmake_build_flags += ['--config', 'Release']
      lib_name = 'osqp.lib'
 -    lib_subdir = ['Release']
@@ -21,5 +21,5 @@ index 35be9e4..2620a1f 100644
  else:  # Linux or Mac
      cmake_args += ['-G', 'Unix Makefiles']
 -- 
-2.21.0.windows.1
+2.29.2.windows.3
 

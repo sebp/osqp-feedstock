@@ -1,4 +1,4 @@
-From 369b1d937afc373f940c0593263413e00fea1823 Mon Sep 17 00:00:00 2001
+From 0aa11a1db1300fb9a504c575d22ef389ae69ad46 Mon Sep 17 00:00:00 2001
 From: Jason Furmanek <furmanek@us.ibm.com>
 Date: Thu, 12 Sep 2019 19:21:41 +0000
 Subject: [PATCH 4/4] Disable MKL Tests on nonx86
@@ -8,10 +8,10 @@ Subject: [PATCH 4/4] Disable MKL Tests on nonx86
  1 file changed, 1 insertion(+)
 
 diff --git a/module/tests/mkl_pardiso_test.py b/module/tests/mkl_pardiso_test.py
-index 72ba3dd..b8b7d93 100644
+index b10a417..1e59d71 100644
 --- a/module/tests/mkl_pardiso_test.py
 +++ b/module/tests/mkl_pardiso_test.py
-@@ -20,6 +20,7 @@ class mkl_pardiso_tests(unittest.TestCase):
+@@ -19,6 +19,7 @@ class mkl_pardiso_tests(unittest.TestCase):
          self.l = np.array([0.0, 0.0])
          self.u = np.array([100.0, 100.0])
  
@@ -20,5 +20,5 @@ index 72ba3dd..b8b7d93 100644
  
          m = osqp.OSQP()
 -- 
-2.21.0.windows.1
+2.29.2.windows.3
 

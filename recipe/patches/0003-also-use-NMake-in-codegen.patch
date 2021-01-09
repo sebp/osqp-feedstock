@@ -1,4 +1,4 @@
-From 9426c5cd448d6ace85ff3a1b96b449e9fc049195 Mon Sep 17 00:00:00 2001
+From c8ea8b5ba3f8a6a067fbd2490b3764eaf8bbc2a3 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 29 Aug 2019 14:13:50 +0200
 Subject: [PATCH 3/4] also use NMake in codegen
@@ -8,10 +8,10 @@ Subject: [PATCH 3/4] also use NMake in codegen
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/module/interface.py b/module/interface.py
-index d551c92..b4483bf 100644
+index 82686b0..6ba0a74 100644
 --- a/module/interface.py
 +++ b/module/interface.py
-@@ -258,9 +258,9 @@ class OSQP(object):
+@@ -297,9 +297,9 @@ class OSQP(object):
          if project_type not in expectedProject:
              raise ValueError("Unknown value of 'project_type' argument.")
  
@@ -24,5 +24,5 @@ index d551c92..b4483bf 100644
                  project_type = 'Unix Makefiles'
  
 -- 
-2.21.0.windows.1
+2.29.2.windows.3
 
