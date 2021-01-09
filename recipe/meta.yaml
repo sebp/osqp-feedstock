@@ -29,7 +29,6 @@ source:
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps -vv
-  skip: true  # [py==27 and (win or (not x86_64))]
 
 requirements:
   build:
@@ -44,8 +43,8 @@ requirements:
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - scipy >=0.13.2
-    - future
+    - qdldl-python
+    - scipy
     - vs2015_runtime                 # [win]
 
 test:
@@ -58,9 +57,11 @@ test:
     - blas=*=mkl                     # [x86_64]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - cmake
-    - pytest
     - make                           # [unix]
+    - cmake
+    - cvxpy
+    - pytest
+    - setuptools
   commands:
     # codegen interface requires compiler + cmake
     - python -m pytest --pyargs osqp                    # [not win]
