@@ -59,14 +59,14 @@ test:
     - {{ compiler('cxx') }}
     - make                           # [unix]
     - cmake
-    - cvxpy
+    - cvxpy                          # [py<39]
     - pytest
     - setuptools
   commands:
     # codegen interface requires compiler + cmake
-    - python -m pytest --pyargs osqp                    # [not win]
+    - python -m pytest --pyargs osqp                    # [py<39 and not win]
     # TODO: windows codegen tests are currently failing on azure
-    - python -m pytest --pyargs osqp -k "not codegen_"  # [win]
+    - python -m pytest --pyargs osqp -k "not codegen_"  # [py<39 and win]
 
 about:
   home: https://osqp.org/
