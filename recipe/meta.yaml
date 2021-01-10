@@ -1,16 +1,15 @@
 {% set name = "osqp" %}
-{% set osqp_python_version = "0.6.1" %}
-{% set osqp_version = "0.6.0" %}
-{% set qdldl_version = "0.1.4" %}
+{% set osqp_version = "0.6.2" %}
+{% set qdldl_version = "0.1.5" %}
 
 package:
   name: {{ name|lower }}
-  version: {{ osqp_python_version }}
+  version: {{ osqp_version }}
 
 source:
-  - url: https://github.com/oxfordcontrol/osqp-python/archive/v{{ osqp_python_version }}.tar.gz
-    fn: osqp-python-{{ osqp_python_version }}.tar.gz
-    sha256: bfd8ccc4ccf2c7be1e8798bcc828e9b773a707deb2678a62d82396048e009742
+  - url: https://github.com/oxfordcontrol/osqp-python/archive/v{{ osqp_version }}.tar.gz
+    fn: osqp-python-{{ osqp_version }}.tar.gz
+    sha256: 7f8d4588f7173e2abb72570c27981168ae3142c8356af52a41e500695ee3d1bf
     patches:
     - patches/0001-setup-use-NMake-on-windows.patch
     - patches/0002-setup-do-not-use-different-output-folder-on-windows.patch
@@ -19,17 +18,17 @@ source:
 
   - url: https://github.com/oxfordcontrol/osqp/archive/v{{ osqp_version }}.tar.gz
     fn: osqp-{{ osqp_version }}.tar.gz
-    sha256: 6e00d11d1f88c1e32a4419324b7539b89e8f9cbb1c50afe69f375347c989ba2b
+    sha256: d973c33c3164caa381ed7387375347a46f7522523350a4e51989479b9d3b59c7
     folder: osqp_sources
+
   - url: https://github.com/oxfordcontrol/qdldl/archive/v{{ qdldl_version }}.tar.gz
     fn: qdldl-{{ qdldl_version }}.tar.gz
-    sha256: 4eaed3b2d66d051cea0a57b0f80a81fc04ec72c8a906f8020b2b07e31d3b549c
+    sha256: 2868b0e61b7424174e9adef3cb87478329f8ab2075211ef28fe477f29e0e5c99
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
 build:
-  number: 2
+  number: 0
   script: {{ PYTHON }} -m pip install . --no-deps -vv
-  skip: true  # [py==27 and (win or (not x86_64))]
 
 requirements:
   build:
@@ -44,8 +43,8 @@ requirements:
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - scipy >=0.13.2
-    - future
+    - qdldl-python
+    - scipy
     - vs2015_runtime                 # [win]
 
 test:
@@ -58,9 +57,11 @@ test:
     - blas=*=mkl                     # [x86_64]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - cmake
-    - pytest
     - make                           # [unix]
+    - cmake
+    - cvxpy
+    - pytest
+    - setuptools
   commands:
     # codegen interface requires compiler + cmake
     - python -m pytest --pyargs osqp                    # [not win]

@@ -1,33 +1,29 @@
-From c74f871711a63fd497bf34a274b28c02e6cafca7 Mon Sep 17 00:00:00 2001
+From c2b10bc1b5c1a1b3249a53562e2a593e5345ee58 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 29 Aug 2019 09:09:32 +0200
 Subject: [PATCH 1/4] setup: use NMake on windows
 
 ---
- setup.py | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ setup.py | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/setup.py b/setup.py
-index 27a3dd8..35be9e4 100644
+index 535a3c0..30fa4c1 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -21,12 +21,11 @@ lib_subdir = []
+@@ -47,10 +47,8 @@ lib_subdir = []
+ 
  # Check if windows linux or mac to pass flag
  if system() == 'Windows':
-     if sys.version_info.major == 3:
--        cmake_args += ['-G', 'Visual Studio 14 2015']
-+        cmake_args += ['-G', 'NMake Makefiles']
-+        cmake_args += ['-DCMAKE_BUILD_TYPE=Release']
-     else:
--        cmake_args += ['-G', 'Visual Studio 9 2008']
+-    cmake_args += ['-G', 'Visual Studio 14 2015']
 -    # Differentiate between 32-bit and 64-bit
 -    if sys.maxsize // 2 ** 32 > 0:
 -        cmake_args[-1] += ' Win64'
-+        cmake_args += ['-G', 'Visual Studio 9 2008 Win64']
-+
++    cmake_args += ['-G', 'NMake Makefiles']
++    cmake_args += ['-DCMAKE_BUILD_TYPE=Release']
      cmake_build_flags += ['--config', 'Release']
      lib_name = 'osqp.lib'
      lib_subdir = ['Release']
 -- 
-2.21.0.windows.1
+2.29.2.windows.3
 
