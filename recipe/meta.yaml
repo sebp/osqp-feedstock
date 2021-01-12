@@ -62,12 +62,12 @@ test:
     - {{ compiler('cxx') }}
     - make                           # [unix]
     - cmake
-    - cvxpy
+    - cvxpy                          # [win or python_impl == "cpython" or py36]
     - pytest
     - setuptools
   commands:
     # codegen interface requires compiler + cmake
-    - python -m pytest --pyargs osqp                    # [not win]
+    - python -m pytest --pyargs osqp                    # [(python_impl == "cpython" or py36) and not win]
     # TODO: windows codegen tests are currently failing on azure
     - python -m pytest --pyargs osqp -k "not codegen_"  # [win]
 
