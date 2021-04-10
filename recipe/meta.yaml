@@ -1,9 +1,8 @@
-{% set name = "osqp" %}
 {% set osqp_version = "0.6.2" %}
 {% set qdldl_version = "0.1.5" %}
 
 package:
-  name: {{ name|lower }}
+  name: osqp
   version: {{ osqp_version }}
 
 source:
