@@ -64,11 +64,11 @@ test:
     - {{ compiler('cxx') }}
     - make                           # [unix]
     - cmake
-    - cvxpy  # [not (win and python_impl == "pypy")]
+    - cvxpy
     - pytest
     - setuptools
   commands:
-    - python -m pytest --pyargs osqp # [not (win and python_impl == "pypy")]
+    - python -m pytest --pyargs osqp
 
 about:
   home: https://osqp.org/
