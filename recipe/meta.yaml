@@ -59,6 +59,7 @@ test:
   requires:
     # some of the tests need mkl-specific solvers
     - blas=*=mkl                     # [x86_64]
+    # codegen interface requires compiler + cmake
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - make                           # [unix]
@@ -67,8 +68,7 @@ test:
     - pytest
     - setuptools
   commands:
-    # codegen interface requires compiler + cmake
-    - python -m pytest --pyargs osqp
+    - python -m pytest --pyargs osqp # [not (win and python_impl == "pypy")]
 
 about:
   home: https://osqp.org/
