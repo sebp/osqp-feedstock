@@ -63,7 +63,7 @@ test:
     - {{ compiler('cxx') }}
     - make                           # [unix]
     - cmake
-    - cvxpy
+    - cvxpy  # [not (win and python_impl == "pypy")]
     - pytest
     - setuptools
   commands:
