@@ -19,6 +19,8 @@ source:
     fn: osqp-{{ osqp_version }}.tar.gz
     sha256: d973c33c3164caa381ed7387375347a46f7522523350a4e51989479b9d3b59c7
     folder: osqp_sources
+    patches:
+     - patches/0001-reflect-new-mkl_rt-name.patch
 
   - url: https://github.com/oxfordcontrol/qdldl/archive/v{{ qdldl_version }}.tar.gz
     fn: qdldl-{{ qdldl_version }}.tar.gz
