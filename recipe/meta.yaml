@@ -33,7 +33,7 @@ source:
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
 build:
-  number: 3
+  number: 4
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
@@ -53,8 +53,12 @@ requirements:
     - python
     - {{ pin_compatible('numpy') }}
     - qdldl-python
-    - scipy
+    # source uses scipy.random, which got removed
+    - scipy <1.9
     - vs2015_runtime                 # [win]
+  run_constrained:
+    # since paradiso directly depends on the SO name, which was changed then
+    - mkl >=2022.0                   # [win]
 
 test:
   imports:
