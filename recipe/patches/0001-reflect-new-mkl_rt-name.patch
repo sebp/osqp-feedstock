@@ -16,7 +16,7 @@ index f120e472..776caf2a 100644
  
  #ifdef IS_WINDOWS
 -#define PARDISOLIBNAME "mkl_rt." SHAREDLIBEXT
-+#define PARDISOLIBNAME "mkl_rt.1." SHAREDLIBEXT
++#define PARDISOLIBNAME "mkl_rt.2." SHAREDLIBEXT
  #else
  #define PARDISOLIBNAME "libmkl_rt." SHAREDLIBEXT
  #endif

@@ -56,6 +56,9 @@ requirements:
     # source uses scipy.random, which got removed
     - scipy <1.9
     - vs2015_runtime                 # [win]
+  run_constrained:
+    # since paradiso directly depends on the SO name, which was changed then
+    - mkl >=2022.0                   # [win]
 
 test:
   imports:
