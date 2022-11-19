@@ -53,8 +53,7 @@ requirements:
     - python
     - {{ pin_compatible('numpy') }}
     - qdldl-python
-    # source uses scipy.random, which got removed
-    - scipy <1.9
+    - scipy
     - vs2015_runtime                 # [win]
   run_constrained:
     # since paradiso directly depends on the SO name, which was changed then
