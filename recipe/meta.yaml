@@ -1,16 +1,13 @@
-{% set osqp_version = "0.6.2" %}
+{% set version = "0.6.3" %}
 {% set qdldl_version = "0.1.5" %}
 
 package:
   name: osqp
-  # version: {{ osqp_version }}
-  # upstream did not tag extra 0.6.2.post0; remove for next version!
-  version: {{ osqp_version + ".post0" }}
+  version: {{ version }}
 
 source:
-  - url: https://github.com/oxfordcontrol/osqp-python/archive/v{{ osqp_version }}.tar.gz
-    fn: osqp-python-{{ osqp_version }}.tar.gz
-    sha256: 7f8d4588f7173e2abb72570c27981168ae3142c8356af52a41e500695ee3d1bf
+  - url: https://github.com/osqp/osqp-python/archive/refs/tags/v{{ version }}.tar.gz
+    sha256: 3a12a5dcdd69a835724cc3f82a0cfb3b7317f11ae5ba651cacac856ae566fb3c
     patches:
     - patches/0001-setup-use-NMake-on-windows.patch
     - patches/0002-setup-do-not-use-different-output-folder-on-windows.patch
@@ -20,20 +17,18 @@ source:
     # while this contains basically only testing changes, it also bumps to 0.6.2.post0
     - patches/0005-Switch-from-CVXPY-ECOS-to-CVXOPT-as-a-test-dependenc.patch
 
-  - url: https://github.com/oxfordcontrol/osqp/archive/v{{ osqp_version }}.tar.gz
-    fn: osqp-{{ osqp_version }}.tar.gz
-    sha256: d973c33c3164caa381ed7387375347a46f7522523350a4e51989479b9d3b59c7
+  - url: https://github.com/oxfordcontrol/osqp/archive/v{{ version }}.tar.gz
+    sha256: a6b4148019001f87489c27232e2bdbac37c94f38fa37c1b4ee11eaa5654756d2
     folder: osqp_sources
     patches:
      - patches/0001-reflect-new-mkl_rt-name.patch
 
   - url: https://github.com/oxfordcontrol/qdldl/archive/v{{ qdldl_version }}.tar.gz
-    fn: qdldl-{{ qdldl_version }}.tar.gz
     sha256: 2868b0e61b7424174e9adef3cb87478329f8ab2075211ef28fe477f29e0e5c99
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
 build:
-  number: 4
+  number: 0
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
@@ -91,7 +86,7 @@ about:
     To use the `codegen` interface, install `cmake` and an appropriate
     compiler version. (We don't install this by default.)
   doc_url: https://osqp.org/
-  dev_url: http://github.com/oxfordcontrol/osqp-python
+  dev_url: http://github.com/osqp/osqp-python
 
 extra:
   recipe-maintainers:
