@@ -11,19 +11,27 @@ source:
     patches:
     - patches/0001-Disable-MKL-Tests-on-nonx86.patch     # [not x86_64]
     - patches/0002-use-ninja-universally.patch
+    - patches/0003-do-not-rebuild-libosqp-here-use-our-own-builds.patch
 
+  # The following sources are included purely to support the codegen functionality of osqp,
+  # which requires copying the sources of osqp and qdldl as data into the package, so that
+  # it can be copied and compiled into a standalone library when needed.
+  # We cannot even point this to our shared libosqp builds (aside from the fact that the end
+  # result would not be standalone anymore), because libosqp in conda-forged is compiled
+  # without the `EMBEDDED` symbol being defined, and has a different ABI than what the
+  # code generation here requires. FTR, I tried patching it and I believe that substantial
+  # changes to src/osqp/codegen/utils.py would be necessary, e.g. to add `status_polish`,
+  # which is required by the libosqp type when `EMBEDDED` is not defined, compare:
+  # https://github.com/osqp/osqp/blob/v0.6.3/include/types.h#L71-L73
   - url: https://github.com/oxfordcontrol/osqp/archive/v{{ version }}.tar.gz
     sha256: a6b4148019001f87489c27232e2bdbac37c94f38fa37c1b4ee11eaa5654756d2
     folder: osqp_sources
-    patches:
-     - patches/0001-reflect-new-mkl_rt-name.patch
-
   - url: https://github.com/oxfordcontrol/qdldl/archive/v{{ qdldl_version }}.tar.gz
     sha256: 2868b0e61b7424174e9adef3cb87478329f8ab2075211ef28fe477f29e0e5c99
     folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
 
 build:
-  number: 0
+  number: 1
   script:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
     - set "SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}"   # [win]
@@ -43,6 +51,7 @@ requirements:
     - setuptools_scm
     - pip
     - numpy
+    - libosqp {{ version }}
   run:
     - python
     - {{ pin_compatible('numpy') }}
