@@ -23,7 +23,10 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script:
+    - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
+    - set "SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}"   # [win]
+    - {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   build:
@@ -36,6 +39,7 @@ requirements:
     - make                           # [unix]
   host:
     - python
+    - setuptools_scm
     - pip
     - numpy
   run:
