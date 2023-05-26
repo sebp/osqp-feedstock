@@ -10,6 +10,7 @@ source:
     sha256: 3a12a5dcdd69a835724cc3f82a0cfb3b7317f11ae5ba651cacac856ae566fb3c
     patches:
     - patches/0001-Disable-MKL-Tests-on-nonx86.patch     # [not x86_64]
+    - patches/0002-use-ninja-universally.patch
 
   - url: https://github.com/oxfordcontrol/osqp/archive/v{{ version }}.tar.gz
     sha256: a6b4148019001f87489c27232e2bdbac37c94f38fa37c1b4ee11eaa5654756d2
@@ -36,7 +37,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    - make                           # [unix]
+    - ninja
   host:
     - python
     - setuptools_scm
