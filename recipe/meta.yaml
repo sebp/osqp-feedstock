@@ -1,28 +1,21 @@
 {% set version = "0.6.3" %}
-{% set qdldl_version = "0.1.5" %}
 
 package:
   name: osqp
   version: {{ version }}
 
 source:
-  - url: https://github.com/osqp/osqp-python/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 3a12a5dcdd69a835724cc3f82a0cfb3b7317f11ae5ba651cacac856ae566fb3c
-    patches:
+  url: https://github.com/osqp/osqp-python/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 3a12a5dcdd69a835724cc3f82a0cfb3b7317f11ae5ba651cacac856ae566fb3c
+  patches:
     - patches/0001-Disable-MKL-Tests-on-nonx86.patch     # [not x86_64]
-
-  - url: https://github.com/oxfordcontrol/osqp/archive/v{{ version }}.tar.gz
-    sha256: a6b4148019001f87489c27232e2bdbac37c94f38fa37c1b4ee11eaa5654756d2
-    folder: osqp_sources
-    patches:
-     - patches/0001-reflect-new-mkl_rt-name.patch
-
-  - url: https://github.com/oxfordcontrol/qdldl/archive/v{{ qdldl_version }}.tar.gz
-    sha256: 2868b0e61b7424174e9adef3cb87478329f8ab2075211ef28fe477f29e0e5c99
-    folder: osqp_sources/lin_sys/direct/qdldl/qdldl_sources
+    - patches/0002-use-ninja-universally.patch
+    - patches/0003-point-to-our-own-builds.patch
+    - patches/0004-do-not-rebuild-libosqp-here.patch
+    - patches/0005-disable-codegen-ABI-is-not-compatible.patch
 
 build:
-  number: 0
+  number: 1
   script:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
     - set "SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}"   # [win]
@@ -36,12 +29,13 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
-    - make                           # [unix]
+    - ninja
   host:
     - python
     - setuptools_scm
     - pip
     - numpy
+    - libosqp {{ version }}
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -60,16 +54,12 @@ test:
   requires:
     # some of the tests need mkl-specific solvers
     - blas=*=mkl                     # [x86_64]
-    # codegen interface requires compiler + cmake
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - make                           # [unix]
-    - cmake
     - cvxopt
     - pytest
     - setuptools
   commands:
-    - python -m pytest --pyargs osqp
+    # codegen tests are disabled because they require an incompatible ABI, see patches
+    - python -m pytest --pyargs osqp -k "not codegen"
 
 about:
   home: https://osqp.org/
