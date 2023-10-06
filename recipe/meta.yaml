@@ -15,7 +15,7 @@ source:
     - patches/0005-disable-codegen-ABI-is-not-compatible.patch
 
 build:
-  number: 1
+  number: 2
   script:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
     - set "SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}"   # [win]
