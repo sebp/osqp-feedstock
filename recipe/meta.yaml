@@ -15,7 +15,8 @@ source:
     - patches/0005-disable-codegen-ABI-is-not-compatible.patch
 
 build:
-  number: 2
+  number: 3
+  skip: true  # [python_impl == "pypy"]
   script:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
     - set "SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}"   # [win]
@@ -27,6 +28,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - cmake
     - ninja
@@ -38,7 +40,6 @@ requirements:
     - libosqp {{ version }}
   run:
     - python
-    - {{ pin_compatible('numpy') }}
     - qdldl-python
     - scipy
     - vs2015_runtime                 # [win]
