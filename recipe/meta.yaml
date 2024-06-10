@@ -1,4 +1,5 @@
-{% set version = "0.6.3" %}
+{% set version = "0.6.7" %}
+{% set lib_version = "0.6.3" %}
 
 package:
   name: osqp
@@ -6,7 +7,7 @@ package:
 
 source:
   url: https://github.com/osqp/osqp-python/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 3a12a5dcdd69a835724cc3f82a0cfb3b7317f11ae5ba651cacac856ae566fb3c
+  sha256: 6e5402fad391f5892d7bb4a58c30e3c5625a18d7e66b65ad5ab38317a5bd6f0d
   patches:
     - patches/0001-Disable-MKL-Tests-on-nonx86.patch     # [not x86_64]
     - patches/0002-use-ninja-universally.patch
@@ -15,7 +16,7 @@ source:
     - patches/0005-disable-codegen-ABI-is-not-compatible.patch
 
 build:
-  number: 3
+  number: 0
   skip: true  # [python_impl == "pypy"]
   script:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
@@ -37,12 +38,11 @@ requirements:
     - setuptools_scm
     - pip
     - numpy
-    - libosqp {{ version }}
+    - libosqp {{ lib_version }}
   run:
     - python
     - qdldl-python
     - scipy
-    - vs2015_runtime                 # [win]
   run_constrained:
     # since paradiso directly depends on the SO name, which was changed then
     - mkl >=2022.0                   # [win]
@@ -60,7 +60,10 @@ test:
     - setuptools
   commands:
     # codegen tests are disabled because they require an incompatible ABI, see patches
-    - python -m pytest --pyargs osqp -k "not codegen"
+    {% set tests_to_skip = "codegen" %}
+    # skip tests that takes 90%+ of test suite runtime (and is xfailed anyway)
+    {% set tests_to_skip = tests_to_skip + " or test_multithread" %}  # [aarch64 or ppc64le]
+    - python -m pytest --pyargs osqp -k "not ({{ tests_to_skip }})"
 
 about:
   home: https://osqp.org/
