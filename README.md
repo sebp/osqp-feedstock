@@ -381,6 +381,3 @@ Feedstock Maintainers
 * [@h-vetinari](https://github.com/h-vetinari/)
 * [@jayfurmanek](https://github.com/jayfurmanek/)
 
-
-<!-- dummy commit to enable rerendering -->
-
