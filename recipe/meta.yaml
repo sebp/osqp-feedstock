@@ -1,4 +1,4 @@
-{% set version = "0.6.3" %}
+{% set version = "0.6.7" %}
 
 package:
   name: osqp
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/osqp/osqp-python/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 3a12a5dcdd69a835724cc3f82a0cfb3b7317f11ae5ba651cacac856ae566fb3c
+  sha256: 6e5402fad391f5892d7bb4a58c30e3c5625a18d7e66b65ad5ab38317a5bd6f0d
   patches:
     - patches/0001-Disable-MKL-Tests-on-nonx86.patch     # [not x86_64]
     - patches/0002-use-ninja-universally.patch
@@ -15,7 +15,7 @@ source:
     - patches/0005-disable-codegen-ABI-is-not-compatible.patch
 
 build:
-  number: 3
+  number: 0
   skip: true  # [python_impl == "pypy"]
   script:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
