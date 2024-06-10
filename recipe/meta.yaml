@@ -60,7 +60,10 @@ test:
     - setuptools
   commands:
     # codegen tests are disabled because they require an incompatible ABI, see patches
-    - python -m pytest --pyargs osqp -k "not codegen"
+    {% set tests_to_skip = "codegen" %}
+    # skip tests that takes 90%+ of test suite runtime (and is xfailed anyway)
+    {% set tests_to_skip = tests_to_skip + " or test_multithread" %}  # [aarch64 or ppc64le]
+    - python -m pytest --pyargs osqp -k "not ({{ tests_to_skip }})"
 
 about:
   home: https://osqp.org/
