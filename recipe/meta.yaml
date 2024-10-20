@@ -39,6 +39,7 @@ requirements:
     - pip
     - numpy
     - libosqp {{ lib_version }}
+    - setuptools
   run:
     - python
     - qdldl-python
