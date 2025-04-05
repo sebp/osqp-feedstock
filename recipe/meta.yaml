@@ -20,6 +20,8 @@ build:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
     - set "SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}"   # [win]
     - export CMAKE_GENERATOR=Ninja  # [unix]
+    - export CMAKE_INCLUDE_PATH=$PREFIX/include   # [unix]
+    - set "CMAKE_INCLUDE_PATH=%LIBRARY_INC%"   # [win]
     - {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
