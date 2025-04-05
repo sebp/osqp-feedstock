@@ -19,6 +19,7 @@ build:
   script:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
     - set "SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}"   # [win]
+    - export CMAKE_GENERATOR=Ninja  # [unix]
     - {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
@@ -30,7 +31,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - cmake
-    - ninja
+    - ninja  # [unix]
     - pybind11
   host:
     - python
