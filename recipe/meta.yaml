@@ -10,7 +10,9 @@ source:
   sha256: f50db86014085255230d93419c2cbd2ec468fa4d01aee8f3b441fb2d04322407
   patches:
     - patches/0001-Link-against-shared-osqp-library.patch
-    - patches/0002-disable-codegen-ABI-is-not-compatible.patch
+    # remove pytorch imports on ppc; the actual test is skipped below, this is to unbreak collection
+    - patches/0002-Remove-pytorch-related-imports.patch  # [ppc64le]
+    - patches/0003-disable-codegen-ABI-is-not-compatible.patch
 
 build:
   number: 0
@@ -56,12 +58,14 @@ test:
     # some of the tests need mkl-specific solvers
     - blas=*=mkl                     # [x86_64]
     - pytest
-    - pytorch
+    - pytorch                        # [not ppc64le]
   commands:
     # codegen tests are disabled because they require an incompatible ABI, see patches
     {% set tests_to_skip = "codegen" %}
     # skip tests that takes 90%+ of test suite runtime (and is xfailed anyway)
     {% set tests_to_skip = tests_to_skip + " or test_multithread" %}  # [aarch64 or ppc64le]
+     # wo don't have pytorch on ppc; skip test module that needs it
+    {% set tests_to_skip = tests_to_skip + " or nn_test.py" %}  # [ppc64le]
     - python -m pytest --pyargs osqp -k "not ({{ tests_to_skip }})"
 
 about:
