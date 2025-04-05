@@ -19,6 +19,10 @@ build:
   script:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
     - set "SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}"   # [win]
+    - export CMAKE_GENERATOR=Ninja  # [unix]
+    # on Windows, we cannot set CMAKE_GENERATOR directly due to the issue
+    # https://github.com/scikit-build/scikit-build-core/issues/1089
+    - set "SKBUILD_CMAKE_ARGS=-G Ninja"  # [win]
     - {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
