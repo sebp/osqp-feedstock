@@ -9,11 +9,8 @@ source:
   url: https://github.com/osqp/osqp-python/archive/refs/tags/v{{ version }}.tar.gz
   sha256: f50db86014085255230d93419c2cbd2ec468fa4d01aee8f3b441fb2d04322407
   patches:
-    - patches/0001-Disable-MKL-Tests-on-nonx86.patch     # [not x86_64]
-    - patches/0002-use-ninja-universally.patch
-    - patches/0003-point-to-our-own-builds.patch
-    - patches/0004-do-not-rebuild-libosqp-here.patch
-    - patches/0005-disable-codegen-ABI-is-not-compatible.patch
+    - patches/0001-Link-against-shared-osqp-library.patch
+    - patches/0002-disable-codegen-ABI-is-not-compatible.patch
 
 build:
   number: 0
@@ -32,8 +29,10 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     - ninja
+    - pybind11
   host:
     - python
+    - scikit-build-core
     - setuptools_scm
     - pip
     - numpy
@@ -42,6 +41,8 @@ requirements:
   run:
     - python
     - qdldl-python
+    - jinja2
+    - joblib
     - scipy
   run_constrained:
     # since paradiso directly depends on the SO name, which was changed then
@@ -51,13 +52,11 @@ test:
   imports:
     - osqp
     - osqp.codegen
-    - osqppurepy
   requires:
     # some of the tests need mkl-specific solvers
     - blas=*=mkl                     # [x86_64]
-    - cvxopt
     - pytest
-    - setuptools
+    - pytorch
   commands:
     # codegen tests are disabled because they require an incompatible ABI, see patches
     {% set tests_to_skip = "codegen" %}
