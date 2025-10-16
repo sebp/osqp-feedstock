@@ -338,4 +338,5 @@ Feedstock Maintainers
 * [@gbanjac](https://github.com/gbanjac/)
 * [@h-vetinari](https://github.com/h-vetinari/)
 * [@jayfurmanek](https://github.com/jayfurmanek/)
+* [@sebp](https://github.com/sebp/)
 

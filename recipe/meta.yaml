@@ -1,4 +1,4 @@
-{% set version = "1.0.4" %}
+{% set version = "1.0.5" %}
 {% set lib_version = "1.0.0" %}
 
 package:
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/osqp/osqp-python/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: fb7344ec39ce6018269b85af2943529f20933e98c71766f62ccf57502f425056
+  sha256: fe555180a1ad7e25bb3e3df787a1539de664a9fd0b1639271f8d5553bc22049e
   patches:
     - patches/0001-Link-against-shared-osqp-library.patch
     # remove pytorch imports on ppc; the actual test is skipped below, this is to unbreak collection
