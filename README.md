@@ -18,7 +18,6 @@ Python interface for OSQP, the Operator Splitting QP Solver.
 To use the `codegen` interface, install `cmake` and an appropriate
 compiler version. (We don't install this by default.)
 
-
 Current build status
 ====================
 
