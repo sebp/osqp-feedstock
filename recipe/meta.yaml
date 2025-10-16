@@ -62,7 +62,7 @@ test:
     - osqp.codegen
   requires:
     # some of the tests need mkl-specific solvers
-    - blas=*=mkl                     # [x86_64]
+    - blas * mkl                    # [x86_64]
     - pytest
     - pytorch                        # [not ppc64le]
   commands:
