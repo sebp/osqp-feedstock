@@ -1,5 +1,5 @@
-{% set version = "0.6.7.post3" %}
-{% set lib_version = "0.6.3" %}
+{% set version = "1.0.4" %}
+{% set lib_version = "1.0.0" %}
 
 package:
   name: osqp
@@ -7,20 +7,24 @@ package:
 
 source:
   url: https://github.com/osqp/osqp-python/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 033692f64877e7a8ec6bb1bbef321e2da467e75cf346ef5e48f601dae498a9b9
+  sha256: fb7344ec39ce6018269b85af2943529f20933e98c71766f62ccf57502f425056
   patches:
-    - patches/0001-Disable-MKL-Tests-on-nonx86.patch     # [not x86_64]
-    - patches/0002-use-ninja-universally.patch
-    - patches/0003-point-to-our-own-builds.patch
-    - patches/0004-do-not-rebuild-libosqp-here.patch
-    - patches/0005-disable-codegen-ABI-is-not-compatible.patch
+    - patches/0001-Link-against-shared-osqp-library.patch
+    # remove pytorch imports on ppc; the actual test is skipped below, this is to unbreak collection
+    - patches/0002-Remove-pytorch-related-imports.patch  # [ppc64le]
+    - patches/0003-disable-codegen-ABI-is-not-compatible.patch
 
 build:
-  number: 1
-  skip: true  # [python_impl == "pypy"]
+  number: 0
   script:
     - export SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}  # [unix]
     - set "SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}"   # [win]
+    - export CMAKE_GENERATOR=Ninja  # [unix]
+    # on Windows, we cannot set CMAKE_GENERATOR directly due to the issue
+    # https://github.com/scikit-build/scikit-build-core/issues/1089
+    - set "SKBUILD_CMAKE_ARGS=-G Ninja"  # [win]
+    - export CMAKE_INCLUDE_PATH=$PREFIX/include   # [unix]
+    - set "CMAKE_INCLUDE_PATH=%LIBRARY_INC%"   # [win]
     - {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
@@ -33,8 +37,10 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     - ninja
+    - pybind11
   host:
     - python
+    - scikit-build-core
     - setuptools_scm
     - pip
     - numpy
@@ -43,6 +49,8 @@ requirements:
   run:
     - python
     - qdldl-python
+    - jinja2
+    - joblib
     - scipy
   run_constrained:
     # since paradiso directly depends on the SO name, which was changed then
@@ -52,18 +60,18 @@ test:
   imports:
     - osqp
     - osqp.codegen
-    - osqppurepy
   requires:
     # some of the tests need mkl-specific solvers
-    - blas=*=mkl                     # [x86_64]
-    - cvxopt
+    - blas * mkl                    # [x86_64]
     - pytest
-    - setuptools
+    - pytorch                        # [not ppc64le]
   commands:
     # codegen tests are disabled because they require an incompatible ABI, see patches
     {% set tests_to_skip = "codegen" %}
     # skip tests that takes 90%+ of test suite runtime (and is xfailed anyway)
     {% set tests_to_skip = tests_to_skip + " or test_multithread" %}  # [aarch64 or ppc64le]
+     # wo don't have pytorch on ppc; skip test module that needs it
+    {% set tests_to_skip = tests_to_skip + " or nn_test.py" %}  # [ppc64le]
     - python -m pytest --pyargs osqp -k "not ({{ tests_to_skip }})"
 
 about:
