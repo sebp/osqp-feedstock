@@ -3,14 +3,6 @@ schema_version: 1
 context:
   version: 1.0.5
   lib_version: 1.0.0
-  # note that tests_to_skip needs to be a single-line string without line breaks
-  tests_to_skip: >-
-    #{{ codegen tests are disabled because they require an incompatible ABI, see patches }}
-    codegen
-    #{{ skip tests that takes 90%+ of test suite runtime (and is xfailed anyway) }}
-    {% if aarch64 or ppc64le %} or test_multithread{% endif %}
-    #{{ we don't have pytorch on ppc; skip test module that needs it }}
-    {% if ppc64le %} or nn_test.py{% endif %}
 
 package:
   name: osqp
@@ -87,7 +79,22 @@ tests:
         - if: not ppc64le
           then: pytorch
     script:
-      - python -m pytest --pyargs osqp -k "not (${{ tests_to_skip }})"
+      interpreter: python
+      content:
+        - import pytest
+        # codegen tests are disabled because they require an incompatible ABI, see patches
+        - 'tests_to_skip = "codegen"'
+        # skip test that takes 90%+ of test suite runtime (and is xfailed anyway)
+        - if: aarch64 or ppc64le
+          then:
+            - 'tests_to_skip += " or test_multithread"'
+        # we don't have pytorch on ppc; skip test module that needs it
+        - if: ppc64le
+          then:
+            - 'tests_to_skip += " or nn_test.py"'
+        - 'args = ["--pyargs", "osqp", "-k", f"not ({tests_to_skip})"]'
+        - 'print(f"running pytest with args: {args}")'
+        - 'pytest.main(args)'
 
 about:
   license: Apache-2.0
