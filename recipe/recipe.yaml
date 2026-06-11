@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "1.1.1"
+  version: "1.1.2"
   lib_version: 1.0.0
 
 package:
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://github.com/osqp/osqp-python/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 55a997608e1a193592ac62e35e3a5374575cc697c25b5181d89961f4089a7b3d
+  sha256: 7de3f9b4e7a3642d5d51659d4cf664dea5e57daaac165af0d60e36887557882d
   patches:
     - patches/0001-Link-against-shared-osqp-library.patch
     # remove pytorch imports in tests; this reduces reliance on pytorch being available
