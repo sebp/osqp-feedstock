@@ -57,6 +57,7 @@ requirements:
     - numpy
     - libosqp =${{ lib_version }}
     - setuptools
+    - pybind11 >=3.0.0
   run:
     - python
     - qdldl-python
