@@ -20,7 +20,7 @@ source:
     - patches/0003-disable-codegen-ABI-is-not-compatible.patch
 
 build:
-  number: 0
+  number: 1
   script:
     - if: unix
       then:
@@ -34,7 +34,15 @@ build:
         # https://github.com/scikit-build/scikit-build-core/issues/1089
         - set "SKBUILD_CMAKE_ARGS=-G Ninja"
         - set "CMAKE_INCLUDE_PATH=%LIBRARY_INC%"
-    - ${{ PYTHON }} -m pip install . --no-deps -vv
+    # CMP0190=NEW + an emulator lets cmake 4.4 FindPython query the target interpreter
+    # when cross-compiling, otherwise cross-compiling free-threaded Python fails.
+    # See https://gitlab.kitware.com/cmake/cmake/-/work_items/28029
+    - if: build_platform != target_platform
+      then: |
+        ${{ PYTHON }} -m pip install . --no-deps -vv \
+          -Ccmake.define.CMAKE_POLICY_DEFAULT_CMP0190=NEW \
+          -Ccmake.define.CMAKE_CROSSCOMPILING_EMULATOR=/usr/bin/env
+      else: ${{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   build:
@@ -48,7 +56,7 @@ requirements:
     - ${{ compiler('cxx') }}
     - cmake
     - ninja
-    - pybind11
+    - pybind11 >=3.0.0
   host:
     - python
     - scikit-build-core
@@ -57,6 +65,7 @@ requirements:
     - numpy
     - libosqp =${{ lib_version }}
     - setuptools
+    - pybind11 >=3.0.0
   run:
     - python
     - qdldl-python
